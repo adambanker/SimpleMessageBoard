@@ -1,0 +1,58 @@
+<head>
+    <title>Message Board</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td><input id='message_content' 
+                placeholder = 'Write message here' type='text'>
+            </td>
+            <td><button id='message_button'>Post</td>
+        <tr>
+    </table>
+    <hr>
+    <table id = 'submitted_messages'>
+    </table>
+    <script>
+
+        // Create message object prototype
+        function Message(content){
+            this.content = content;
+            this.time = new Date().toLocaleTimeString();
+        }
+
+        // Makes posts to be inserted into table
+        var make_post = function(time, content){
+            // Create the new message html
+            var post = document.createElement('tr');
+
+            // Converts message content to html
+            post.innerHTML = 
+                '<td>' + time + '</td>' +
+                '<td>' + content + '</td>'; 
+            
+            return(post);
+
+        }
+
+        // Add event listener to Post button that adds the message
+        // to the message board
+        document.getElementById('message_button').addEventListener('click',
+            function(){
+
+                // Create a new message object with the new content
+                var new_message = new Message(document.getElementById('message_content').value);
+
+                // Create the new message html
+                var message_tr = make_post(new_message.time, new_message.content);
+                
+                // Inserts the new message to the top of the message board
+                var insert_table = document.getElementById('submitted_messages');
+                insert_table.insertBefore(message_tr, insert_table.childNodes[0]);
+
+                // Resets the post input to blank
+                document.getElementById('message_content').value = '';
+        })
+
+    </script>
+</body>
